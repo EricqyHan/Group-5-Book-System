@@ -4,18 +4,18 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 public class BookViewModel {
-    private int bookId;
+    private int id;
     @NotEmpty(message = "Please supply a value for title")
     private String title;
     @NotEmpty(message = "Please supply a value for author")
     private String author;
 
-    public int getBookId() {
-        return bookId;
+    public int getId() {
+        return id;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setId(int bookId) {
+        this.id = bookId;
     }
 
     public String getTitle() {
@@ -39,13 +39,13 @@ public class BookViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookViewModel that = (BookViewModel) o;
-        return bookId == that.bookId &&
+        return id == that.id &&
                 title.equals(that.title) &&
                 author.equals(that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, title, author);
+        return Objects.hash(id, title, author);
     }
 }
