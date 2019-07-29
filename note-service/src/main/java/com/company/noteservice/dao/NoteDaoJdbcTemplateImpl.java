@@ -44,14 +44,14 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
         note.setNote(rs.getString("note"));
 
         return note;
+
     }
 
     @Override
     public Note getNote(int noteId) {
         try {
-            return jdbcTemplate.queryForObject(SELECT_NOTE_SQL, this::mapRowToNote, noteId);
-        } catch (EmptyResultDataAccessException e){
-            // if there is no match for this note id, return null
+            return jdbcTemplate.queryForObject(SELECT_NOTE_SQL, this::mapRowToNote,noteId);
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
@@ -67,6 +67,7 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
                 INSERT_NOTE_SQL,
                 note.getBookId(),
                 note.getNote());
+
         int id = jdbcTemplate.queryForObject("select last_insert_id()",Integer.class);
         note.setNoteId(id);
         return note;
@@ -74,8 +75,7 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
 
     @Override
     public void deleteNote(int noteId) {
-        jdbcTemplate.update(DELETE_NOTE_SQL,noteId);
-
+        jdbcTemplate.update(DELETE_NOTE_SQL, noteId);
     }
 
     @Override
@@ -86,7 +86,4 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
                 note.getNote(),
                 note.getNoteId());
     }
-
-
-
 }
