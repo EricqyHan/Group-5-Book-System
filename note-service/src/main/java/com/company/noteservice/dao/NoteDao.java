@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface NoteDao {
 
-    Note getNote(int note_id);
+    Note getNote(int noteId);
 
     List<Note> getAllNotes();
 
     Note addNote(Note note);
 
-    void deleteNote(int note_id);
+    void deleteNote(int noteId);
 
     void updateNote(Note note);
 }
