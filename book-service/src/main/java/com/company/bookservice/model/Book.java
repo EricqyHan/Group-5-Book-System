@@ -1,11 +1,13 @@
 package com.company.bookservice.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Book {
     private int bookId;
     private String title;
     private String author;
+    private List<Note> notes;
 
 //    public Book(int bookId, String title, String author) {
 //        this.bookId = bookId;
@@ -35,6 +37,14 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.company.bookservice.service;
 
 import com.company.bookservice.dao.BookDao;
 import com.company.bookservice.model.Book;
+import com.company.bookservice.model.Note;
 import com.company.bookservice.viewmodel.BookViewModel;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,19 +15,32 @@ import java.util.List;
 @Component
 public class BookService {
 
-    BookDao bookDao;
+    public static final String EXCHANGE = "note-exchange";
+    public static final String ROUTING_KEY = "notes.list.add.book.controller";
+    private BookDao bookDao;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     public BookService(BookDao bookDao) {
         this.bookDao = bookDao;
     }
 
+    @Transactional
     public BookViewModel saveBook(BookViewModel bookViewModel) {
         Book book = new Book();
         book.setTitle("The Alchemist");
         book.setAuthor("Paulo Coelho");
         book = bookDao.addBook(book);
-
+        if (book.getNotes() != null){
+            for (Note note: book.getNotes()){
+                // Add each note to the queue
+                System.out.println("Sending message...");
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+                System.out.println("Message Sent");
+            }
+        }
         bookViewModel.setBookId(book.getBookId());
         return bookViewModel;
     }

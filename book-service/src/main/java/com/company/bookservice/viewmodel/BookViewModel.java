@@ -1,6 +1,9 @@
 package com.company.bookservice.viewmodel;
 
+import com.company.bookservice.model.Note;
+
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Objects;
 
 public class BookViewModel {
@@ -9,6 +12,8 @@ public class BookViewModel {
     private String title;
     @NotEmpty(message = "Please supply a value for author")
     private String author;
+
+    private List<Note> notes;
 
     public int getBookId() {
         return bookId;
@@ -32,6 +37,14 @@ public class BookViewModel {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     @Override
