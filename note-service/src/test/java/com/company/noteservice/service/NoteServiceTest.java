@@ -71,12 +71,15 @@ public class NoteServiceTest {
     }
 
     @Test
-    public void removeBook() {
-        noteService.removeBook(10);
+    public void removeNote() {
+        noteService.removeNote(10);
     }
 
     @Test
     public void findAllNotes() {
         List<Note> noteList = noteService.findAllNotes();
     }
+
+
+
 }

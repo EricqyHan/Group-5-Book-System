@@ -37,6 +37,9 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
     private static final String UPDATE_NOTE_SQL =
             "update note set book_id = ?, note = ? where note_id = ?";
 
+    private static final String SELECT_NOTE_BY_BOOK_ID_SQL =
+            "select * from note where book_id = ?";
+
     private Note mapRowToNote(ResultSet rs, int rowNum) throws SQLException {
         Note note = new Note();
         note.setNoteId(rs.getInt("note_id"));
@@ -85,5 +88,10 @@ public class NoteDaoJdbcTemplateImpl implements NoteDao{
                 note.getBookId(),
                 note.getNote(),
                 note.getNoteId());
+    }
+
+    @Override
+    public List<Note> getNotesByBookId(int bookId) {
+        return jdbcTemplate.query(SELECT_NOTE_BY_BOOK_ID_SQL, this::mapRowToNote, bookId);
     }
 }

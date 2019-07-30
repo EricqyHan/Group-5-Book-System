@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -96,5 +97,18 @@ public class NoteDaoTest {
 
         Note note1 = noteDao.getNote(note.getNoteId());
         assertEquals(note1, note);
+    }
+
+    @Test
+    public void getNotesByBookId() {
+        Note note = new Note();
+        note.setBookId(10);
+        note.setNote("my notes");
+
+        note = noteDao.addNote(note);
+
+        List<Note> noteList = noteDao.getNotesByBookId(10);
+        assertEquals(1,noteList.size());
+        assertEquals(10, noteList.get(0).getBookId());
     }
 }

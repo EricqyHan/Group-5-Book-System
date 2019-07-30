@@ -5,6 +5,7 @@ import com.company.noteservice.model.Note;
 import com.company.noteservice.viewmodel.NoteViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NoteService {
@@ -56,11 +57,25 @@ public class NoteService {
         return noteViewModel;
     }
 
-    public void removeBook(int id) {
+    public void removeNote(int id) {
         noteDao.deleteNote(id);
     }
 
-    public List<Note> findAllNotes() {
-        return noteDao.getAllNotes();
+    public List<NoteViewModel> findAllNotes() {
+        List<NoteViewModel> noteViewModelList = new ArrayList<>();
+        for(Note note :noteDao.getAllNotes()){
+            NoteViewModel noteViewModel = new NoteViewModel();
+            noteViewModel.setNote(note.getNote());
+            noteViewModel.setBookId(note.getBookId());
+            noteViewModel.setNoteId(note.getNoteId());
+            noteViewModelList.add(noteViewModel);
+        }
+
+        return  noteViewModelList;
+
+    }
+
+    public List<Note> findNotesByBookId(int bookId) {
+        return noteDao.getNotesByBookId(bookId);
     }
 }
