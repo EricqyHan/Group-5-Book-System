@@ -16,7 +16,7 @@ public class BookController {
     private BookService bookService;
     @RequestMapping(value = "/books", method = RequestMethod.POST)
     BookViewModel addBook(@RequestBody @Valid BookViewModel book){
-        BookViewModel newBook = bookService.saveBook(book);
+        BookViewModel newBook = bookService.addBook(book);
         return newBook;
     }
 

@@ -7,6 +7,7 @@ import com.company.bookservice.viewmodel.BookViewModel;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,18 +46,54 @@ public class BookServiceTest {
         doReturn(bookList).when(bookDao).getAllBooks();
     }
 
+//    @Test
+//    public void saveFindFindAllBook() {
+//        BookViewModel bookViewModel = new BookViewModel();
+//        bookViewModel.setTitle("The Alchemist");
+//        bookViewModel.setAuthor("Paulo Coelho");
+//
+//        bookViewModel = bookService.saveBook(bookViewModel);
+//        BookViewModel fromService = bookService.findBookById(bookViewModel.getBookId());
+//        assertEquals(bookViewModel, fromService);
+//
+//        List<BookViewModel> bookViewModelList = bookService.findAllBooks();
+//        assertEquals(1, bookViewModelList.size());
+//        assertEquals(bookViewModel, bookViewModelList.get(0));
+//    }
+
     @Test
-    public void saveFindFindAllBook() {
+    public void fetchBook() {
+        BookViewModel bookViewModel = bookService.findBookById(1);
+        assertEquals(bookViewModel.getBookId(), 1);
+    }
+
+    @Test
+    public void fetchAllBooks() {
+        List<BookViewModel> bookViewModelList = bookService.findAllBooks();
+    }
+
+    @Test
+    public void addBook() {
         BookViewModel bookViewModel = new BookViewModel();
+        bookViewModel.setTitle("Eat, Pray, Love");
+        bookViewModel.setAuthor("Elizabeth Gilbert");
+
+        bookViewModel = bookService.addBook(bookViewModel);
+        assertEquals(1, bookViewModel.getBookId());
+    }
+
+    @Test
+    public void removeBook() {
+        bookService.removeBook(1);
+    }
+
+    @Test
+    public void updateTask() {
+        BookViewModel bookViewModel = new BookViewModel();
+        bookViewModel.setBookId(1);
         bookViewModel.setTitle("The Alchemist");
         bookViewModel.setAuthor("Paulo Coelho");
 
-        bookViewModel = bookService.saveBook(bookViewModel);
-        BookViewModel fromService = bookService.findBookById(bookViewModel.getBookId());
-        assertEquals(bookViewModel, fromService);
-
-        List<BookViewModel> bookViewModelList = bookService.findAllBooks();
-        assertEquals(1, bookViewModelList.size());
-        assertEquals(bookViewModel, bookViewModelList.get(0));
     }
+
 }

@@ -17,6 +17,7 @@ public class BookService {
 
     public static final String EXCHANGE = "note-exchange";
     public static final String ROUTING_KEY = "notes.list.add.book.controller";
+
     private BookDao bookDao;
 
     @Autowired
@@ -27,23 +28,23 @@ public class BookService {
         this.bookDao = bookDao;
     }
 
-    @Transactional
-    public BookViewModel saveBook(BookViewModel bookViewModel) {
-        Book book = new Book();
-        book.setTitle("The Alchemist");
-        book.setAuthor("Paulo Coelho");
-        book = bookDao.addBook(book);
-        if (book.getNotes() != null){
-            for (Note note: book.getNotes()){
-                // Add each note to the queue
-                System.out.println("Sending message...");
-                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
-                System.out.println("Message Sent");
-            }
-        }
-        bookViewModel.setBookId(book.getBookId());
-        return bookViewModel;
-    }
+//    @Transactional
+//    public BookViewModel saveBook(BookViewModel bookViewModel) {
+//        Book book = new Book();
+//        book.setTitle("The Alchemist");
+//        book.setAuthor("Paulo Coelho");
+//        book = bookDao.addBook(book);
+//        if (book.getNotes() != null){
+//            for (Note note: book.getNotes()){
+//                // Add each note to the queue
+//                System.out.println("Sending message...");
+//                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+//                System.out.println("Message Sent");
+//            }
+//        }
+//        bookViewModel.setBookId(book.getBookId());
+//        return bookViewModel;
+//    }
 
     public BookViewModel findBookById(int id) {
         Book book = bookDao.getBook(id);
@@ -66,25 +67,46 @@ public class BookService {
         return bookVMList;
     }
 
-    @Transactional
-    public void updateBook(BookViewModel bookViewModel) {
+//    @Transactional
+//    public void updateBook(BookViewModel bookViewModel) {
+//        Book book = new Book();
+//        book.setBookId(bookViewModel.getBookId());
+//        book.setTitle(bookViewModel.getTitle());
+//        book.setAuthor(bookViewModel.getAuthor());
+//        bookDao.updateBook(book);
+//        if (book.getNotes() != null){
+//            for (Note note: book.getNotes()){
+//                // Add each note to the queue
+//                System.out.println("Sending message...");
+//                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+//                System.out.println("Message Sent");
+//            }
+//        }
+//    }
+
+    public BookViewModel addBook(BookViewModel bookViewModel) {
+
         Book book = new Book();
-        book.setBookId(bookViewModel.getBookId());
         book.setTitle(bookViewModel.getTitle());
         book.setAuthor(bookViewModel.getAuthor());
-        bookDao.updateBook(book);
-        if (book.getNotes() != null){
-            for (Note note: book.getNotes()){
-                // Add each note to the queue
-                System.out.println("Sending message...");
-                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
-                System.out.println("Message Sent");
-            }
-        }
+
+        book = bookDao.addBook(book);
+        bookViewModel.setBookId(book.getBookId());
+        return bookViewModel;
     }
 
     public void removeBook(int id) {
         bookDao.deleteBook(id);
+    }
+
+    public void updateBook(BookViewModel bookViewModel) {
+
+        Book book = new Book();
+        book.setBookId(bookViewModel.getBookId());
+        book.setTitle(bookViewModel.getTitle());
+        book.setAuthor(bookViewModel.getAuthor());
+
+        bookDao.updateBook(book);
     }
 
     private BookViewModel buildBookViewModel(Book book) {
