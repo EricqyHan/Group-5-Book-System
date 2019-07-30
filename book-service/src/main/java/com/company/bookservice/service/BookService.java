@@ -28,23 +28,6 @@ public class BookService {
         this.bookDao = bookDao;
     }
 
-//    @Transactional
-//    public BookViewModel saveBook(BookViewModel bookViewModel) {
-//        Book book = new Book();
-//        book.setTitle("The Alchemist");
-//        book.setAuthor("Paulo Coelho");
-//        book = bookDao.addBook(book);
-//        if (book.getNotes() != null){
-//            for (Note note: book.getNotes()){
-//                // Add each note to the queue
-//                System.out.println("Sending message...");
-//                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
-//                System.out.println("Message Sent");
-//            }
-//        }
-//        bookViewModel.setBookId(book.getBookId());
-//        return bookViewModel;
-//    }
 
     public BookViewModel findBookById(int id) {
         Book book = bookDao.getBook(id);
@@ -67,30 +50,22 @@ public class BookService {
         return bookVMList;
     }
 
-//    @Transactional
-//    public void updateBook(BookViewModel bookViewModel) {
-//        Book book = new Book();
-//        book.setBookId(bookViewModel.getBookId());
-//        book.setTitle(bookViewModel.getTitle());
-//        book.setAuthor(bookViewModel.getAuthor());
-//        bookDao.updateBook(book);
-//        if (book.getNotes() != null){
-//            for (Note note: book.getNotes()){
-//                // Add each note to the queue
-//                System.out.println("Sending message...");
-//                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
-//                System.out.println("Message Sent");
-//            }
-//        }
-//    }
-
+    @Transactional
     public BookViewModel addBook(BookViewModel bookViewModel) {
 
         Book book = new Book();
         book.setTitle(bookViewModel.getTitle());
         book.setAuthor(bookViewModel.getAuthor());
-
         book = bookDao.addBook(book);
+        if (book.getNotes() != null){
+            for (Note note: book.getNotes()){
+                // Add each note to the queue
+                System.out.println("Sending message...");
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+                System.out.println("Message Sent");
+            }
+        }
+
         bookViewModel.setBookId(book.getBookId());
         return bookViewModel;
     }
@@ -105,8 +80,16 @@ public class BookService {
         book.setBookId(bookViewModel.getBookId());
         book.setTitle(bookViewModel.getTitle());
         book.setAuthor(bookViewModel.getAuthor());
-
         bookDao.updateBook(book);
+
+        if (book.getNotes() != null){
+            for (Note note: book.getNotes()){
+                // Add each note to the queue
+                System.out.println("Sending message...");
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+                System.out.println("Message Sent");
+            }
+        }
     }
 
     private BookViewModel buildBookViewModel(Book book) {

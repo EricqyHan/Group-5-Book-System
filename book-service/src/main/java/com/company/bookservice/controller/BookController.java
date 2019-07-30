@@ -14,6 +14,7 @@ import javax.validation.Valid;
 public class BookController {
     @Autowired
     private BookService bookService;
+
     @RequestMapping(value = "/books", method = RequestMethod.POST)
     BookViewModel addBook(@RequestBody @Valid BookViewModel book){
         BookViewModel newBook = bookService.addBook(book);

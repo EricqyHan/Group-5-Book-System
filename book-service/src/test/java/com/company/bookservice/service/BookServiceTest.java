@@ -88,7 +88,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void updateTask() {
+    public void updateBook() {
         BookViewModel bookViewModel = new BookViewModel();
         bookViewModel.setBookId(1);
         bookViewModel.setTitle("The Alchemist");

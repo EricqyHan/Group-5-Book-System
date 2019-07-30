@@ -9,11 +9,6 @@ public class Book {
     private String author;
     private List<Note> notes;
 
-//    public Book(int bookId, String title, String author) {
-//        this.bookId = bookId;
-//        this.title = title;
-//        this.author = author;
-//    }
 
     public int getBookId() {
         return bookId;
