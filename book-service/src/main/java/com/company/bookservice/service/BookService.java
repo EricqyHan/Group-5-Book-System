@@ -72,8 +72,15 @@ public class BookService {
         book.setBookId(bookViewModel.getBookId());
         book.setTitle(bookViewModel.getTitle());
         book.setAuthor(bookViewModel.getAuthor());
-
         bookDao.updateBook(book);
+        if (book.getNotes() != null){
+            for (Note note: book.getNotes()){
+                // Add each note to the queue
+                System.out.println("Sending message...");
+                rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
+                System.out.println("Message Sent");
+            }
+        }
     }
 
     public void removeBook(int id) {
