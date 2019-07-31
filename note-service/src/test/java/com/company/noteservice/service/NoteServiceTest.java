@@ -77,7 +77,7 @@ public class NoteServiceTest {
 
     @Test
     public void findAllNotes() {
-        List<Note> noteList = noteService.findAllNotes();
+        noteService.findAllNotes();
     }
 
 

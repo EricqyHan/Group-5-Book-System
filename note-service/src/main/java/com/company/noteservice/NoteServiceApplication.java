@@ -15,7 +15,7 @@ import org.springframework.amqp.core.TopicExchange;
 @SpringBootApplication
 public class NoteServiceApplication {
 
-	public static final String TOPIC_EXCHANGE_NAME = "queue-demo-exchange";
+	public static final String TOPIC_EXCHANGE_NAME = "note-exchange";
 	public static final String QUEUE_NAME = "note-list-add-queue";
 	public static final String ROUTING_KEY = "note.list.add.#";
 
