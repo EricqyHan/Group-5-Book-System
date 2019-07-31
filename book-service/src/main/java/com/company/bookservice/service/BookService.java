@@ -16,7 +16,7 @@ import java.util.List;
 public class BookService {
 
     public static final String EXCHANGE = "note-exchange";
-    public static final String ROUTING_KEY = "notes.list.add.book.controller";
+    public static final String ROUTING_KEY = "note.list.add.#";
 
     private BookDao bookDao;
 
