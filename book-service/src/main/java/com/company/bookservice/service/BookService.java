@@ -57,9 +57,10 @@ public class BookService {
         book.setTitle(bookViewModel.getTitle());
         book.setAuthor(bookViewModel.getAuthor());
         book = bookDao.addBook(book);
-        if (book.getNotes() != null){
-            for (Note note: book.getNotes()){
+        if (bookViewModel.getNotes() != null){
+            for (Note note: bookViewModel.getNotes()){
                 // Add each note to the queue
+                note.setBookId(book.getBookId());
                 System.out.println("Sending message...");
                 rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
                 System.out.println("Message Sent");
@@ -82,9 +83,10 @@ public class BookService {
         book.setAuthor(bookViewModel.getAuthor());
         bookDao.updateBook(book);
 
-        if (book.getNotes() != null){
-            for (Note note: book.getNotes()){
+        if (bookViewModel.getNotes() != null){
+            for (Note note: bookViewModel.getNotes()){
                 // Add each note to the queue
+                note.setBookId(book.getBookId());
                 System.out.println("Sending message...");
                 rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, note);
                 System.out.println("Message Sent");
