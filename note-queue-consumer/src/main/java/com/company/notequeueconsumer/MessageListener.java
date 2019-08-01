@@ -16,7 +16,5 @@ public class MessageListener {
         System.out.println("Invoking notes service for " + msg.toString());
         NoteListEntry newnote = client.addNote(msg);
         System.out.println("Notes added " + newnote.toString());
-
     }
-
 }
