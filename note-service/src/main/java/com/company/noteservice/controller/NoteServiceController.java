@@ -47,11 +47,3 @@ public class NoteServiceController {
         service.removeNote(id);
     }
 }
-
-//
-//        Get Notes by Book
-//        =================
-//        URI: /notes/book/{book_id}
-//        HTTP Method: GET
-//        RequestBody: None
-//        ResponseBody: Array of Book data
